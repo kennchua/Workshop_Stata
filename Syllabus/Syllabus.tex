@@ -1,0 +1,209 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+%\usepackage{libertine,libertinust1math} % better with 12pt font? 
+\linespread{1.15} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\urlstyle{sf}
+\pagestyle{fancy}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{amssymb} 
+\usepackage{layout}
+\usepackage{array}
+\usepackage{verbatim}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{alice}{HTML}{107895}
+\usepackage[colorlinks=true,
+            linkcolor=alice,
+            urlcolor=alice,
+            citecolor=gray]{hyperref}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Modify Course title, instructor name, semester here 
+
+\title{\textsc{Introduction to Stata for Graduate Students}}
+\author{Kenn Chua}
+\date{Summer, 2017}
+
+
+
+% Modify header here 
+\rhead{\footnotesize \textsc{Introduction to Stata for Graduate Students}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+            
+\begin{document}
+
+\maketitle
+
+\blankline
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+\hline 
+
+E-mail:  \href{mailto:chuax025@umn.edu}{\nolinkurl{chuax025@umn.edu}} & Web: \href{http://github.com/kennchua/Workshop_Stata}{\nolinkurl{http://github.com/kennchua/Workshop_Stata}}  \\
+
+ Office Hours: Mon - Fri 4:00 - 5:00pm  &  Class Hours: Mon - Fri 1:00-4:00 pm \\
+
+ Office: Ruttan Hall 249 & Classroom: Coffey Hall 50 \\
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Description}
+
+This course aims to introduce the statistical computing software Stata to incoming MS and PhD students. It aims to familiarize students with the various uses of Stata as a tool for data management and econometric analysis. The course will be taught at the beginner to advanced beginner levels and shall cover basic commands as well as impart efficient coding practices that will be essential for empirical research.  
+
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Objectives}
+At the end of the course, students should be able to use Stata to:
+\begin{enumerate}
+\item Create, open, modify, and save data files
+\item	 Generate descriptive statistics and perform basic econometric analyses
+\item Produce tables and figures that can be easily incorporated in reports
+\item Document all steps in data processing and analysis stages for later reproducibility     
+\item Write concise and efficient codes to run several commands and operations  
+\end{enumerate}
+
+% Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Instructional Format}
+
+The daily sessions will be divided into two parts. The first consists of an interactive lecture in which the instructor presenting the day’s concepts and demonstrating their applications in Stata. Students are expected to follow the lecture by replicating the output on their computers. After the lecture,  students will be asked to complete a series of exercises that will test their mastery of the lesson. Copies of the lectures and answers to the exercises will be uploaded before the class begins. Students are highly encouraged to work together. 
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Class Requirements}
+Apart from daily attendance and completion of in-class exercises, no assignments or quizzes will be required. Practice outside of class is highly encouraged but not mandatory. The class is non-credit and no grades will be given as part of the course.     
+
+
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Structure}
+
+\subsection*{Day 1: Introduction}
+\begin{enumerate}
+\setlength\itemsep{-0.5em}
+\item Parts of the Stata window
+\item Getting help
+\item Do files and introduction to writing code
+\item Loading and importing data (ASCII, .xls,  .dta)
+\item Data storage types
+\item Arithmetic, logical, and relational operators
+\item Examining the data using \verb!describe!,  \verb!list!,  \verb!assert!, and \verb!browse!
+\item Summarizing data and generating frequency tables
+\item Subsetting with \verb!if! and \verb!in!
+\item Keeping or dropping observations and variables
+\item Renaming variables and replacing values
+\item Generating new variables with \verb!gen!
+\item Variable labels and value labels
+\item Saving and exporting data
+
+
+\end{enumerate}
+
+\subsection*{Day 2: Data Wrangling}
+\begin{enumerate}
+\setlength\itemsep{-0.5em}
+\item Handling missing values and outliers
+\item Arranging columns and rows using \verb!order!,  \verb!sort!,  and \verb!gsort! 
+\item Generating new variables with \verb!egen!
+\item Grouped data manipulation and summaries using the \verb!by! and \verb!bysort! prefix
+\item Using \verb!collapse!
+\item Appending datasets
+\item Merging datasets
+\item Reshaping data from wide to long and long to wide
+\end{enumerate}
+
+\subsection*{Day 3: Data Visualization and Analysis}
+\begin{enumerate}
+\setlength\itemsep{-0.5em}
+\item Creating log files
+\item Installing user-written commands
+\item Creating Stata graphs
+\item Exporting Stata graphs
+\item Regression analysis in Stata
+\item Working with indicator variables and categorical variables
+\item Post-estimation commands
+\item Exporting regressions results using \verb!outreg2! 
+\item Setting up panel data for analysis 
+\end{enumerate}
+
+
+\subsection*{Day 4: Scalars, Matrices, and Macros}
+\begin{enumerate}
+\setlength\itemsep{-0.5em}
+\item Scalars in Stata
+\item Matrices and matrix operations in Stata
+\item System variables
+\item r-class and e-class objects
+\item Macros: Globals vs. Locals
+\item Temporary files
+\end{enumerate}
+
+\subsection*{Day 5: Loops and Automation}
+\begin{enumerate}
+\setlength\itemsep{-0.5em}
+\item \verb!while! loops 
+\item \verb!forvalues! and \verb!foreach! loops  
+\item Conditional expressions
+\item Nested loops
+\end{enumerate}
+
+\subsection*{Additional Material}
+\begin{enumerate}
+\setlength\itemsep{-0.5em}
+\item Writing your own program in Stata
+\item Setting up a project directory and workflow
+\item Exporting results to \LaTeX
+\item Exporting results to MS Excel
+\item Other topics as suggested by the class
+\end{enumerate}
+
+\end{document}
+

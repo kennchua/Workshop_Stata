@@ -1,0 +1,91 @@
+*******************************************************************************
+*						Introduction to STATA								  *
+*						August 2017 Exercise 3								  *
+********************************************************************************
+
+/*1. Set up this do file. Make sure to clear data in memory, declare version 
+number of STATA in use, and use a home path or directory that leads to the 
+folder containing incdec_day3_lec.dta */ 
+clear all
+capture log close
+set more off
+version 13.0
+
+cd "/Users/kenngarrychua/Desktop/STATA Course/Day 3/"
+
+/*2. Start a log file from this item. */
+
+log using "STATAcamp_Day3.log", replace 
+
+/*3. Load the file incdec_day3_lec.dta, which is the 5-year panel data
+of countries 1950-2000. Generate a variable for log(popn), log(rgdppc), 
+squared log(rgdppc), and squared log(popn). */
+
+use "incdec_day3_lec.dta", clear
+
+gen lpopn = log(popn)
+gen lrgdppc = log(rgdppc)
+gen lrgdppc_sq = lrgdppc*lrgdppc
+
+/*4. Create a variable for country_name that signifies countries in numeric form
+Hint: We did this in the lecture! */
+encode country_name, gen(c_num)
+
+/*5. Regression models and postestimation tests:
+5a) Use -reg- to regress polity on log(rgdppc), year dummies (i.e. i.year)
+and country dummies (i.e. i.c_num). 
+
+5b) Generate your model's predicted values (yhat) of polity.
+
+5c) Use -estat hettest- to check whether your model's error terms are
+homoskedastic. */
+
+reg polity lrgdppc i.year i.c_num
+
+predict yhat, xb			// alternatively: predict yhat
+
+estat hettest
+* We cannot reject the null hypothesis. 			
+			
+/*6. Use the -xtset- command to declare the data as panel or longitudinal. */
+xtset c_num year
+
+*xtset only accepts numeric variables. 
+
+/*7. Regression models and exporting their results:
+For 7a) - 7d) report cluster robust standard errors (i.e. vce(cl c_num)), and
+include year dummies (i.e. i.year) in the model. 
+For those using -xtreg- command, include fe (fixed effects) as an option. 
+
+7a) Use -reg- to regress polity on log(rgdppc)
+7b) Use -xtreg- to regress polity on log(rgdppc)
+7c) Regress polity on log(rgdppc), squared log(rgdppc)
+7d) Regress polity on log(rgdppc), squared log(rgdppc)
+	as well as interactions between log(rgdppc) and log(popn) and their main
+	effects. Note that aforementioned variables are both continuous variables!
+
+7e) Use -outreg2- to save estimation results as a .doc file. The coefficient 
+estimates that should be reported in the .doc file are those of log(rgdppc),
+and squared log(rgdppc). */ 
+
+reg polity lrgdppc i.year, vce(cluster c_num)  
+outreg2 using myreg.doc, replace ctitle(Model 1) ///
+		keep(lrgdppc lrgdppc_sq)
+
+xtreg polity lrgdppc i.year, vce(cluster c_num) fe
+outreg2 using myreg.doc, append ctitle(Model 1) ///
+		keep(lrgdppc lrgdppc_sq)
+ 
+xtreg polity lrgdppc lrgdppc_sq i.year, vce(cluster c_num) fe
+outreg2 using myreg.doc, append ctitle(Model 2) ///
+		keep(lrgdppc lrgdppc_sq) 
+
+xtreg polity lrgdppc lrgdppc_sq c.lrgdppc##c.lpopn i.year, vce(cl c_num) fe
+outreg2 using myreg.doc, append ctitle(Model 3) ///
+		keep(lrgdppc lrgdppc_sq)
+
+
+/*8. Close your log file. Save your do file. Can you re-run your entire code 
+and reproduce all of your results (including log file) 
+with no errors? */   
+log close 
